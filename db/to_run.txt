@@ -1,0 +1,8 @@
+// to restore db
+1. open microsoft sql server express
+2. connect to db service
+3. restore db from backup
+4. choose .bak
+
+// to restore db without data
+4. choose nodata.bak
