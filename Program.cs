@@ -32,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OData SteelDoor v1"));
 }
 
+app.MapGet("/helloWorld", () => "Hello World");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
