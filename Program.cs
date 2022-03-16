@@ -12,7 +12,18 @@ static IEdmModel GetEdmModel()
     return builder.GetEdmModel();
 }
 
+var MyCorsSettings = "_MyCorsSettings";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyCorsSettings,
+        builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyHeader();
+        });
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,6 +46,8 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/helloWorld", () => "Hello World");
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyCorsSettings);
 
 app.UseAuthorization();
 
