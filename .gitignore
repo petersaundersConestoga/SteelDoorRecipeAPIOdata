@@ -1,2 +1,5 @@
 # ignore build artefacts, ie bin
 Release
+
+# ignore RRR_FrontEnd
+RRR_FrontEnd
