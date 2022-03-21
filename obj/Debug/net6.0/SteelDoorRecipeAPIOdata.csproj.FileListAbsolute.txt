@@ -269,3 +269,6 @@ C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\obj\Debug\net6.0\ref\SteelDo
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package-lock.json
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package.json
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\public\manifest.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\asset-manifest.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\manifest.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

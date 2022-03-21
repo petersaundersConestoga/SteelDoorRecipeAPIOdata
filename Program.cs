@@ -1,14 +1,33 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using SteelDoorRecipeAPIOdata.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 static IEdmModel GetEdmModel()
 {
     ODataConventionModelBuilder builder = new();
-    builder.EntitySet<Recipe>("Recipe");
+    builder.EntitySet<AccountManager>("AccountManager");
+    builder.EntitySet<AccountType>("AccountType");
     builder.EntitySet<Course>("Course");
+    builder.EntitySet<CourseList>("CourseList");
+    builder.EntitySet<Cuisine>("Cuisine");
+    builder.EntitySet<Diet>("Diet");
+    builder.EntitySet<DietList>("DietList");
+    builder.EntitySet<IngredientList>("IngredientList");
+    builder.EntitySet<Instruction>("Instruction");
+    builder.EntitySet<Person>("Person");
+    //builder.EntitySet<PersonReview>("PersonReview");
+    builder.EntitySet<PublishState>("PublishState");
+    builder.EntitySet<Recipe>("Recipe");
+    builder.EntitySet<Review>("Review");
+    builder.EntitySet<Season>("Season");
+    builder.EntitySet<SeasonList>("SeasonList");
+    builder.EntitySet<Timing>("Timing");
+    builder.EntitySet<Unit>("Unit");
     return builder.GetEdmModel();
 }
 
@@ -34,6 +53,18 @@ builder.Services.AddDbContext<CapstoneRecipeDatabaseContext>(options => options.
 builder.Services.AddControllers().AddOData(
     opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
 
+// 1. Add Authentication Services
+/*
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    
+});
+*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +72,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OData SteelDoor v1"));
+    //app.UseDeveloperExceptionPage();
 }
 
 app.MapGet("/helloWorld", () => "Hello World");
@@ -50,6 +82,7 @@ app.UseHttpsRedirection();
 app.UseCors(MyCorsSettings);
 
 app.UseAuthorization();
+//app.UseAuthentication();
 
 app.MapControllers();
 

@@ -9,46 +9,46 @@ using SteelDoorRecipeAPIOdata.Models;
 
 namespace SteelDoorRecipeAPIOdata.Controllers
 {
-    public class CourseController : ODataController
+    public class SeasonController : ODataController
     {
         private readonly CapstoneRecipeDatabaseContext _db;
-        private readonly ILogger<CourseController> _logger;
+        private readonly ILogger<SeasonController> _logger;
 
-        public CourseController(CapstoneRecipeDatabaseContext dbContext, ILogger<CourseController> logger)
+        public SeasonController(CapstoneRecipeDatabaseContext dbContext, ILogger<SeasonController> logger)
         {
             _db = dbContext;
             _logger = logger;
         }
 
         [EnableQuery(PageSize = 15)]
-        public IQueryable<Course> Get()
+        public IQueryable<Season> Get()
         {
-            return _db.Courses;
+            return _db.Seasons;
         }
 
         [EnableQuery]
-        public SingleResult<Course> Get([FromODataUri] int key)
+        public SingleResult<Season> Get([FromODataUri] int key)
         {
-            var result = _db.Courses.Where(c => c.Id == key);
+            var result = _db.Seasons.Where(c => c.Id == key);
             return SingleResult.Create(result);
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Post([FromBody] Course Course)
+        public async Task<IActionResult> Post([FromBody] Season Season)
         {
-            _db.Courses.Add(Course);
+            _db.Seasons.Add(Season);
             await _db.SaveChangesAsync();
-            return Created(Course);
+            return Created(Season);
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Patch([FromODataUri] int key, Delta<Course> note)
+        public async Task<IActionResult> Patch([FromODataUri] int key, Delta<Season> note)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var existingNote = await _db.Courses.FindAsync(key);
+            var existingNote = await _db.Seasons.FindAsync(key);
             if (existingNote == null)
             {
                 return NotFound();
@@ -61,7 +61,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourseExists(key))
+                if (!SeasonExists(key))
                 {
                     return NotFound();
                 }
@@ -76,20 +76,20 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Delete([FromODataUri] int key)
         {
-            Course existingCourse = await _db.Courses.FindAsync(key);
-            if (existingCourse == null)
+            Season existingSeason = await _db.Seasons.FindAsync(key);
+            if (existingSeason == null)
             {
                 return NotFound();
             }
 
-            _db.Courses.Remove(existingCourse);
+            _db.Seasons.Remove(existingSeason);
             await _db.SaveChangesAsync();
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        private bool CourseExists(int key)
+        private bool SeasonExists(int key)
         {
-            return _db.Courses.Any(p => p.Id == key);
+            return _db.Seasons.Any(p => p.Id == key);
         }
     }
 }
