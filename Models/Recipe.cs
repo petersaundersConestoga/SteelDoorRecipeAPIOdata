@@ -9,6 +9,7 @@ namespace SteelDoorRecipeAPIOdata.Models
         {
             DietLists = new HashSet<DietList>();
             Instructions = new HashSet<Instruction>();
+            PersonReviews = new HashSet<PersonReview>();
             PublishStates = new HashSet<PublishState>();
             SeasonLists = new HashSet<SeasonList>();
             Timings = new HashSet<Timing>();
@@ -27,6 +28,7 @@ namespace SteelDoorRecipeAPIOdata.Models
         public virtual Person Person { get; set; } = null!;
         public virtual ICollection<DietList> DietLists { get; set; }
         public virtual ICollection<Instruction> Instructions { get; set; }
+        public virtual ICollection<PersonReview> PersonReviews { get; set; }
         public virtual ICollection<PublishState> PublishStates { get; set; }
         public virtual ICollection<SeasonList> SeasonLists { get; set; }
         public virtual ICollection<Timing> Timings { get; set; }

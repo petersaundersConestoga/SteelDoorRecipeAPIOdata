@@ -206,24 +206,24 @@ namespace SteelDoorRecipeAPIOdata.Models
 
             modelBuilder.Entity<PersonReview>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("PersonReview");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.HasOne(d => d.Person)
-                    .WithMany()
+                    .WithMany(p => p.PersonReviews)
                     .HasForeignKey(d => d.PersonId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PersonReview_Person");
 
                 entity.HasOne(d => d.Recipe)
-                    .WithMany()
+                    .WithMany(p => p.PersonReviews)
                     .HasForeignKey(d => d.RecipeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PersonReview_Recipe");
 
                 entity.HasOne(d => d.Review)
-                    .WithMany()
+                    .WithMany(p => p.PersonReviews)
                     .HasForeignKey(d => d.ReviewId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PersonReview_Review");

@@ -8,6 +8,7 @@ namespace SteelDoorRecipeAPIOdata.Models
         public Person()
         {
             AccountManagers = new HashSet<AccountManager>();
+            PersonReviews = new HashSet<PersonReview>();
             Recipes = new HashSet<Recipe>();
         }
 
@@ -24,6 +25,7 @@ namespace SteelDoorRecipeAPIOdata.Models
 
         public virtual AccountType AccountType { get; set; } = null!;
         public virtual ICollection<AccountManager> AccountManagers { get; set; }
+        public virtual ICollection<PersonReview> PersonReviews { get; set; }
         public virtual ICollection<Recipe> Recipes { get; set; }
     }
 }
