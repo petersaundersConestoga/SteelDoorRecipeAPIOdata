@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -20,7 +20,7 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<IngredientList>("IngredientList");
     builder.EntitySet<Instruction>("Instruction");
     builder.EntitySet<Person>("Person");
-    //builder.EntitySet<PersonReview>("PersonReview");
+    builder.EntitySet<PersonReview>("PersonReview");
     builder.EntitySet<PublishState>("PublishState");
     builder.EntitySet<Recipe>("Recipe");
     builder.EntitySet<Review>("Review");

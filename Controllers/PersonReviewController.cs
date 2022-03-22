@@ -27,11 +27,9 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public SingleResult<PersonReview> Get([FromODataUri] int personId, int reviewId, int recipeId)
+        public SingleResult<PersonReview> Get([FromODataUri] int key)
         {
-            var result = _db.PersonReviews.Where(c => c.PersonId == personId && 
-                                                    c.ReviewId == reviewId && 
-                                                    c.RecipeId == recipeId);
+            var result = _db.PersonReviews.Where(c => c.Id == key);
             return SingleResult.Create(result);
         }
 
@@ -44,13 +42,13 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Patch([FromODataUri] int personId, int recipeId, int reviewId, Delta<PersonReview> note)
+        public async Task<IActionResult> Patch([FromODataUri] int key, Delta<PersonReview> note)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var existingNote = await _db.PersonReviews.FindAsync(personId, recipeId, reviewId);
+            var existingNote = await _db.PersonReviews.FindAsync(key);
             if (existingNote == null)
             {
                 return NotFound();
@@ -63,7 +61,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PersonReviewExists(personId, recipeId, reviewId))
+                if (!PersonReviewExists(key))
                 {
                     return NotFound();
                 }
@@ -76,9 +74,9 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Delete([FromODataUri] int personId, int reviewId, int recipeId)
+        public async Task<IActionResult> Delete([FromODataUri] int key)
         {
-            PersonReview existingPersonReview = await _db.PersonReviews.FindAsync(personId, reviewId, recipeId);
+            PersonReview existingPersonReview = await _db.PersonReviews.FindAsync(key);
             if (existingPersonReview == null)
             {
                 return NotFound();
@@ -89,11 +87,9 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        private bool PersonReviewExists(int personId, int reviewId, int recipeId)
+        private bool PersonReviewExists(int key)
         {
-            return _db.PersonReviews.Any(c => c.PersonId == personId &&
-                                                    c.ReviewId == reviewId &&
-                                                    c.RecipeId == recipeId);
+            return _db.PersonReviews.Any(p => p.Id == key);
         }
     }
 }

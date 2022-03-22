@@ -5,6 +5,7 @@ namespace SteelDoorRecipeAPIOdata.Models
 {
     public partial class PersonReview
     {
+        public int Id { get; set; }
         public int RecipeId { get; set; }
         public int PersonId { get; set; }
         public int ReviewId { get; set; }
