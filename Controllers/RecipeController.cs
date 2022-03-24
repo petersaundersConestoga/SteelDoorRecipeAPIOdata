@@ -14,20 +14,6 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         private readonly CapstoneRecipeDatabaseContext _db;
         private readonly ILogger<RecipeController> _logger;
 
-        // fully works
-        // see postman example here
-        /*
-        {
-            "Id": 12,
-            "PersonId": 0,
-            "CuisineId": 0,
-            "Name": "",
-            "CreationDate": "1900-01-01T00:00:00Z",
-            "ServingCount": 0,
-            "Story": "",
-            "Difficulty": 0
-        }
-         */
         public RecipeController(CapstoneRecipeDatabaseContext dbContext, ILogger<RecipeController> logger)
         {
             _db = dbContext;
