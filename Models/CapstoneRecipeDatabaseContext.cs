@@ -35,6 +35,7 @@ namespace SteelDoorRecipeAPIOdata.Models
         public virtual DbSet<Timing> Timings { get; set; } = null!;
         public virtual DbSet<Unit> Units { get; set; } = null!;
 
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var configuration = new ConfigurationBuilder()
@@ -45,6 +46,8 @@ namespace SteelDoorRecipeAPIOdata.Models
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
+        */
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

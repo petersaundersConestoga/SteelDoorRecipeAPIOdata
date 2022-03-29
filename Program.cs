@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyCorsSettings,
         builder =>
         {
-            builder.AllowAnyOrigin().AllowAnyHeader();
+            builder.AllowAnyHeader();
         });
 });
 
@@ -75,15 +75,14 @@ if (app.Environment.IsDevelopment())
     //app.UseDeveloperExceptionPage();
 }
 
-app.MapGet("/helloWorld", () => "Hello World");
-
 app.UseHttpsRedirection();
 
 app.UseCors(MyCorsSettings);
 
-app.UseAuthorization();
 //app.UseAuthentication();
+app.UseAuthorization();
 
+app.MapGet("/helloWorld", () => "Hello World");
 app.MapControllers();
 
 app.Run();

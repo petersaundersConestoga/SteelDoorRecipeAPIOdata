@@ -72,6 +72,37 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             }
             return Updated(existingNote);
         }
+        [EnableQuery]
+        public async Task<IActionResult> Put([FromODataUri] int key, Delta<Unit> note)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var existingNote = await _db.Units.FindAsync(key);
+            if (existingNote == null)
+            {
+                return NotFound();
+            }
+
+            note.Patch(existingNote);
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UnitExists(key))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Updated(existingNote);
+        }
 
         [EnableQuery]
         public async Task<IActionResult> Delete([FromODataUri] int key)

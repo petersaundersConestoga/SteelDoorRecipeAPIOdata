@@ -1,5 +1,10 @@
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\appsettings.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\asset-manifest.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\manifest.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package-lock.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package.json
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\public\manifest.json
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\SteelDoorRecipeAPIOdata.exe
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\SteelDoorRecipeAPIOdata.deps.json
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\SteelDoorRecipeAPIOdata.runtimeconfig.json
@@ -8,6 +13,7 @@ C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\SteelDoorRe
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Humanizer.dll
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\MessagePack.dll
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\MessagePack.Annotations.dll
+C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.AspNetCore.OData.dll
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -266,9 +272,3 @@ C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\obj\Debug\net6.0\refint\Stee
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\obj\Debug\net6.0\SteelDoorRecipeAPIOdata.pdb
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\obj\Debug\net6.0\SteelDoorRecipeAPIOdata.genruntimeconfig.cache
 C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\obj\Debug\net6.0\ref\SteelDoorRecipeAPIOdata.dll
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package-lock.json
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\package.json
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\public\manifest.json
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\asset-manifest.json
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\RRR_FrontEnd\build\manifest.json
-C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
