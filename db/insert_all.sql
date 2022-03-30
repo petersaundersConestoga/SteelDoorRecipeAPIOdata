@@ -344,3 +344,25 @@ INSERT INTO [dbo].[PersonReview]
            (4,2,5,5),
            (5,1,4,1)
 GO
+
+-- image recipe
+INSERT INTO [dbo].[ImageRecipe]
+           ([Id]
+           ,[RecipeId]
+           ,[Location])
+     VALUES
+           (1,1,'C:/recipeimage/1.png'),
+           (2,2,'C:/recipeimage/2.png'),
+           (3,3,'C:/recipeimage/3.png')
+GO
+
+-- image person
+INSERT INTO [dbo].[ImagePerson]
+           ([Id]
+           ,[PersonId]
+           ,[Location])
+     VALUES
+           (1,1,'C:/personimage/1.png'),
+           (2,2,'C:/personimage/2.png'),
+           (3,3,'C:/personimage/3.png')
+GO

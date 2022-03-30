@@ -10,5 +10,8 @@ namespace SteelDoorRecipeAPIOdata.Models
         public int UnitId { get; set; }
         public string Name { get; set; } = null!;
         public decimal Quantity { get; set; }
+
+        public virtual Recipe Recipe { get; set; } = null!;
+        public virtual Unit Unit { get; set; } = null!;
     }
 }

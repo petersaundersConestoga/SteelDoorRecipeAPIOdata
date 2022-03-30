@@ -5,6 +5,12 @@
 USE [CapstoneRecipeDatabase]
 GO
 
+DELETE FROM [dbo].[Person]
+GO
+
+DELETE FROM [dbo].[AccountType]
+GO
+
 DELETE FROM [dbo].[SeasonList]
 GO
 
@@ -44,11 +50,14 @@ GO
 DELETE FROM [dbo].[Review]
 GO
 
-DELETE FROM [dbo].[Person]
-GO
-
 DELETE FROM [dbo].[PersonReview]
 GO
 
 DELETE FROM [dbo].[Review]
+GO
+
+DELETE FROM [dbo].[ImagePerson]
+GO
+
+DELETE FROM [dbo].[ImageRecipe]
 GO
