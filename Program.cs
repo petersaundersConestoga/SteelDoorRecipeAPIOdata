@@ -17,6 +17,8 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<Cuisine>("Cuisine");
     builder.EntitySet<Diet>("Diet");
     builder.EntitySet<DietList>("DietList");
+    builder.EntitySet<ImagePerson>("ImagePerson");
+    builder.EntitySet<ImageRecipe>("ImageRecipe");
     builder.EntitySet<IngredientList>("IngredientList");
     builder.EntitySet<Instruction>("Instruction");
     builder.EntitySet<Person>("Person");
