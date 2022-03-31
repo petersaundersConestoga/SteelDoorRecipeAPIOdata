@@ -9,14 +9,14 @@ using SteelDoorRecipeAPIOdata.Models;
 
 namespace SteelDoorRecipeAPIOdata.Controllers
 {
-    public class ImagePersonController : ODataController
+    public class ImagePersonImplementationController : ODataController
     {
         private readonly CapstoneRecipeDatabaseContext _db;
-        private readonly ILogger<ImagePersonController> _logger;
+        private readonly ILogger<ImagePersonImplementationController> _logger;
         private static string folder = System.Configuration.ConfigurationManager.AppSettings["Person"].ToString();
         private static string root = System.Configuration.ConfigurationManager.AppSettings["Root"].ToString();
 
-        public ImagePersonController(CapstoneRecipeDatabaseContext dbContext, ILogger<ImagePersonController> logger)
+        public ImagePersonImplementationController(CapstoneRecipeDatabaseContext dbContext, ILogger<ImagePersonImplementationController> logger)
         {
             _db = dbContext;
             _logger = logger;
@@ -28,12 +28,12 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             // we do not store the image in the database
             // thus we need to go get it
             // unfortunately due to this we need to convert between our database model an a version with the byte[]
-            List<ImagePerson> imagePeople = await _db.ImagePeople.ToListAsync();
-            IAsyncEnumerable<ImagePerson> asyncPeople = (IAsyncEnumerable<ImagePerson>)imagePeople;
+            //List<ImagePerson> imagePeople = await _db.ImagePeople.AsAsyncEnumerable(); ToListAsync();
+            //IAsyncEnumerable<ImagePerson> asyncPeople = (IAsyncEnumerable<ImagePerson>)imagePeople;
             List<ImagePersonImplementation> result = new List<ImagePersonImplementation>();
             ImagePersonImplementation implementation = null;
 
-            await foreach (ImagePerson currentPerson in asyncPeople)
+            await foreach (ImagePerson currentPerson in _db.ImagePeople.AsAsyncEnumerable())
             {
                 // create a new implementation, fill, place into the return list
                 implementation = new ImagePersonImplementation();
@@ -58,9 +58,12 @@ namespace SteelDoorRecipeAPIOdata.Controllers
 
             // create a new image person implementation with the single result
             ImagePersonImplementation i =  new (myResult.Queryable.First());
+
+            // implement it as in enumerable
+            // follow here https://qawithexperts.com/questions/463/how-do-i-create-object-for-iqueryable-in-c
+            IQueryable<ImagePersonImplementation> iq = 
+                Enumerable.Empty<ImagePersonImplementation>().AsQueryable();
             
-            // turn that image person into a queryable
-            IQueryable<ImagePersonImplementation> iq = (IQueryable<ImagePersonImplementation>)i;
 
             // return the queryable as a single result
             return SingleResult.Create(iq);

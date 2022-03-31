@@ -7,7 +7,8 @@ namespace SteelDoorRecipeAPIOdata.Models
 {
     // we cannot work directly with the ImagePerson Model as it depends on the db
     // so we create a new version that can deal with our need to store the byte[]
-    public class ImagePersonImplementation : ImagePerson
+    // https://weblogs.asp.net/mehfuzh/writing-custom-linq-provider#comment-627
+    public class ImagePersonImplementation : ImagePerson //, IQueryable//, IQueryProvider
     {
         public ImagePersonImplementation() { }
 
@@ -18,7 +19,6 @@ namespace SteelDoorRecipeAPIOdata.Models
             this.Location = "";
             this.Image = FileUtil.GetFile(person.Location).GetAwaiter().GetResult();
         }
-
         public byte[] Image { get; set; } = new byte[] { 0x00 };
     }
 }
