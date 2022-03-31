@@ -123,7 +123,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         public async Task<IActionResult> Put([FromODataUri] int key, Delta<ImagePersonImplementation> note)
         {
             Delta<ImagePerson> person = new();
-            person.GetInstance().Id = note.GetInstance().Id;
+            person.GetInstance().Id = key;
             person.GetInstance().PersonId = note.GetInstance().PersonId;
             person.GetInstance().Location = GetLocation(note.GetInstance().Id, note.GetInstance().Image);
 
