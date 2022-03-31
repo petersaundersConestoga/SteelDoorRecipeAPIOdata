@@ -18,7 +18,9 @@ namespace SteelDoorRecipeAPIOdata.Models
             this.PersonId = person.Id;
             this.Location = "";
             this.Image = FileUtil.GetFile(person.Location).GetAwaiter().GetResult();
+            this.FileType = person.Location.Substring(person.Location.Length - 3);
         }
         public byte[] Image { get; set; } = new byte[] { 0x00 };
+        public string FileType { get; set; } = "";
     }
 }

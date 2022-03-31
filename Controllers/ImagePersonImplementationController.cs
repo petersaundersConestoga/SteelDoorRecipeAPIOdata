@@ -41,6 +41,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
                 implementation.PersonId = currentPerson.PersonId;
                 implementation.Image = await FileUtil.GetFile(currentPerson.Location);
                 implementation.Location = "";
+                implementation.FileType = currentPerson.Location.Substring(currentPerson.Location.Length - 3);
 
                 result.Add(implementation);
             }
@@ -60,8 +61,9 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             ImagePersonImplementation i =  new (myResult.Queryable.First());
 
             // implement it as in enumerable
-            // follow here https://qawithexperts.com/questions/463/how-do-i-create-object-for-iqueryable-in-c
-            IQueryable<ImagePersonImplementation> iq = 
+            // follow here
+            // https://qawithexperts.com/questions/463/how-do-i-create-object-for-iqueryable-in-c
+            IQueryable<ImagePersonImplementation> iq =
                 Enumerable.Empty<ImagePersonImplementation>().AsQueryable();
             
 
