@@ -6,6 +6,7 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using SteelDoorRecipeAPIOdata.Models;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
 
 static IEdmModel GetEdmModel()
 {
@@ -99,5 +100,11 @@ app.UseAuthorization();
 
 app.MapGet("/helloWorld", () => "Hello World");
 app.MapControllers();
+
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next(context);
+});
 
 app.Run();
