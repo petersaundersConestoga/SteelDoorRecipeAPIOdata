@@ -7,8 +7,8 @@
 2. Install or Run Sql Server Management Studio, SMSS
 3. In SMSS click Tasks > Restore
 4. Choose Restore From Device
-5. Open the db folder from before
-6. Choose the latest db copy
+5. Open the db folder in the repository you cloned 
+6. Choose the latest dated db 
 7. Click restore
 8. Open Visual Studio 2022 or later
 9.1. Open appsettings.json and edit 'Default Connection' to match the db your just restored
