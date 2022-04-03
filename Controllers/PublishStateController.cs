@@ -11,10 +11,10 @@ namespace SteelDoorRecipeAPIOdata.Controllers
 {
     public class PublishStateController : ODataController
     {
-        private readonly CapstoneRecipeDatabaseContext _db;
+        private readonly rrrdbContext _db;
         private readonly ILogger<PublishStateController> _logger;
 
-        public PublishStateController(CapstoneRecipeDatabaseContext dbContext, ILogger<PublishStateController> logger)
+        public PublishStateController(rrrdbContext dbContext, ILogger<PublishStateController> logger)
         {
             _db = dbContext;
             _logger = logger;

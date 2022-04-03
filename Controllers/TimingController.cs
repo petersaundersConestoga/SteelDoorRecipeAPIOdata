@@ -11,10 +11,10 @@ namespace SteelDoorRecipeAPIOdata.Controllers
 {
     public class TimingController : ODataController
     {
-        private readonly CapstoneRecipeDatabaseContext _db;
+        private readonly rrrdbContext _db;
         private readonly ILogger<TimingController> _logger;
 
-        public TimingController(CapstoneRecipeDatabaseContext dbContext, ILogger<TimingController> logger)
+        public TimingController(rrrdbContext dbContext, ILogger<TimingController> logger)
         {
             _db = dbContext;
             _logger = logger;

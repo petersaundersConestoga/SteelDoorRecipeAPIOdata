@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SteelDoorRecipeAPIOdata.Models
+namespace SteelDoorRecipeAPIOdata
 {
     public partial class Timing
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SteelDoorRecipeAPIOdata.Models
+namespace SteelDoorRecipeAPIOdata
 {
     public partial class PersonReview
     {
@@ -12,6 +12,5 @@ namespace SteelDoorRecipeAPIOdata.Models
 
         public virtual Person Person { get; set; } = null!;
         public virtual Recipe Recipe { get; set; } = null!;
-        public virtual Review Review { get; set; } = null!;
     }
 }

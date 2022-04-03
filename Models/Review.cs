@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SteelDoorRecipeAPIOdata.Models
+namespace SteelDoorRecipeAPIOdata
 {
     public partial class Review
     {
         public Review()
         {
-            PersonReviews = new HashSet<PersonReview>();
             PublishStates = new HashSet<PublishState>();
         }
 
@@ -19,7 +18,6 @@ namespace SteelDoorRecipeAPIOdata.Models
         public bool? ImadeThis { get; set; }
         public bool? IhaveAquestion { get; set; }
 
-        public virtual ICollection<PersonReview> PersonReviews { get; set; }
         public virtual ICollection<PublishState> PublishStates { get; set; }
     }
 }

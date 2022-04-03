@@ -11,10 +11,10 @@ namespace SteelDoorRecipeAPIOdata.Controllers
 {
     public class AccountManagerController : ODataController
     {
-        private readonly CapstoneRecipeDatabaseContext _db;
+        private readonly rrrdbContext _db;
         private readonly ILogger<AccountManagerController> _logger;
 
-        public AccountManagerController(CapstoneRecipeDatabaseContext dbContext, ILogger<AccountManagerController> logger)
+        public AccountManagerController(rrrdbContext dbContext, ILogger<AccountManagerController> logger)
         {
             _db = dbContext;
             _logger = logger;

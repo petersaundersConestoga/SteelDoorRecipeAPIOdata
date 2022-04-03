@@ -7,6 +7,7 @@ using Microsoft.OData.ModelBuilder;
 using SteelDoorRecipeAPIOdata.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
+using SteelDoorRecipeAPIOdata;
 
 static IEdmModel GetEdmModel()
 {
@@ -66,10 +67,17 @@ if (builder.Environment.IsProduction())
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>{c.SwaggerDoc("v1", new() { Title = "OData Recipes", Version = "v1" });});
 
-builder.Services.AddDbContext<CapstoneRecipeDatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<rrrdbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers().AddOData(
     // odata commands
-    opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
+    opt => opt.AddRouteComponents("v1", GetEdmModel())
+        .Filter()
+        .Select()
+        .Expand()
+        .Count()
+        .SkipToken()
+        .OrderBy()
+    );
 
 // 1. Add Authentication Services
 /*

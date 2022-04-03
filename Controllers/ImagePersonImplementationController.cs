@@ -14,14 +14,14 @@ namespace SteelDoorRecipeAPIOdata.Controllers
 {
     public class ImagePersonImplementationController : ODataController
     {
-        private readonly CapstoneRecipeDatabaseContext _db;
+        private readonly rrrdbContext _db;
         private readonly ILogger<ImagePersonImplementationController> _logger;
         private readonly IConfiguration _config;
         private string folder = "personimage";
         private string root = "";
 
         public ImagePersonImplementationController(
-                CapstoneRecipeDatabaseContext dbContext, 
+                rrrdbContext dbContext, 
                 ILogger<ImagePersonImplementationController> logger,
                 IConfiguration config)
         {
