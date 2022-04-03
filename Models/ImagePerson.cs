@@ -17,5 +17,12 @@ namespace SteelDoorRecipeAPIOdata.Models
         public string Location { get; set; } = null!;
 
         public virtual Person Person { get; set; } = null!;
+
+        internal void Patch(ImagePerson image)
+        {
+            this.Id = image.Id;
+            this.Person = image.Person;
+            this.Location = image.Location;
+        }
     }
 }

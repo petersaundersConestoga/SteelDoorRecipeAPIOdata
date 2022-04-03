@@ -16,13 +16,20 @@ namespace SteelDoorRecipeAPIOdata.Controllers
     {
         private readonly CapstoneRecipeDatabaseContext _db;
         private readonly ILogger<ImagePersonImplementationController> _logger;
-        private static string folder = System.Configuration.ConfigurationManager.AppSettings["Person"].ToString();
-        private static string root = System.Configuration.ConfigurationManager.AppSettings["Root"].ToString();
+        private readonly IConfiguration _config;
+        private string folder = "personimage";
+        private string root = "";
 
-        public ImagePersonImplementationController(CapstoneRecipeDatabaseContext dbContext, ILogger<ImagePersonImplementationController> logger)
+        public ImagePersonImplementationController(
+                CapstoneRecipeDatabaseContext dbContext, 
+                ILogger<ImagePersonImplementationController> logger,
+                IConfiguration config)
         {
             _db = dbContext;
             _logger = logger;
+            _config = config;
+            //this.folder = _config["Person"];
+            //this.root = _config["Root"];
         }
 
         [EnableQuery(PageSize = 15)]
@@ -86,16 +93,17 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Patch([FromODataUri] int key, Delta<ImagePersonImplementation> note)
+        public async Task<IActionResult> Patch([FromODataUri] int key)
         {
-            Delta<ImagePerson> person = new();
-            person.GetInstance().Id = note.GetInstance().Id;
-            person.GetInstance().PersonId = note.GetInstance().PersonId;
-            person.GetInstance().Location = GetLocation(note.GetInstance().Id, note.GetInstance().Image);
-            
-            if (!ModelState.IsValid)
+            ImagePersonImplementation image = null;
+            try
             {
-                return BadRequest(ModelState);
+                var req = Request.Body;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string rawjson = await new StreamReader(req).ReadToEndAsync();
+                image = JsonSerializer.Deserialize<ImagePersonImplementation>(rawjson);
+            } catch (Exception ex) {
+                Console.WriteLine(ex.InnerException);
             }
             var existingNote = await _db.ImagePeople.FindAsync(key);
             if (existingNote == null)
@@ -103,11 +111,13 @@ namespace SteelDoorRecipeAPIOdata.Controllers
                 return NotFound();
             }
 
-            person.Patch(existingNote);
+            ImagePerson myPerson = new ImagePerson(image);
+
+            myPerson.Patch(existingNote);
             try
             {
                 await _db.SaveChangesAsync();
-                await FileUtil.SaveFile(note.GetInstance().Image, folder, key);
+                await FileUtil.SaveFile(image.Image, folder, key);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -124,58 +134,31 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Put([FromODataUri] int key)//, [FromBody] string image) // [FromODataUri] int key, [FromBody] string content)//Delta<ImagePersonImplementation> note)
+        public async Task<IActionResult> Put([FromODataUri] int key)
         {
-            //Delta<ImagePerson> person = new();
-            //var json = note.ToString();
-            //person.GetInstance().Id = key;
-            //person.GetInstance().PersonId = note.PersonId;
-            //person.GetInstance().Location = GetLocation(note.Id); // note.Image);
-            //Console.WriteLine(image);
-            //Console.WriteLine(content);
+            ImagePersonImplementation image = null;
             try
             {
-                
                 var req = Request.Body;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string rawjson = await new StreamReader(req).ReadToEndAsync();
-                
-                /*
-                ReadResult requestBodyInBytes = await Request.BodyReader.ReadAsync();
-                Request.BodyReader.AdvanceTo(requestBodyInBytes.Buffer.Start, requestBodyInBytes.Buffer.End);
-                string json = Encoding.UTF8.GetString(requestBodyInBytes.Buffer.FirstSpan);
-                */
-                Console.WriteLine("mybody" + rawjson);
-                ImagePersonImplementation image = JsonSerializer.Deserialize<ImagePersonImplementation>(rawjson);
-                /*ImagePersonImplementation image = 
-                    JsonSerializer.Deserialize<ImagePersonImplementation>(
-                        await new StreamReader(req).ReadToEndAsync());*/
-                Console.WriteLine(image.FileType);
-            } catch (Exception ex)
-            {
+                image = JsonSerializer.Deserialize<ImagePersonImplementation>(rawjson);
+            } catch (Exception ex) {
                 Console.WriteLine(ex.InnerException);
             }
-
-            string here = null;
-            /*
-            Console.WriteLine(json);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var existingNote = await _db.ImagePeople.FindAsync(key);
-            var delta = note.GetInstance().Id;
             if (existingNote == null)
             {
                 return NotFound();
             }
 
-            //note.Patch(existingNote);
+            ImagePerson myPerson = new ImagePerson(image);
+
+            myPerson.Patch(existingNote);
             try
             {
                 await _db.SaveChangesAsync();
-                //await FileUtil.SaveFile(note.Image, folder, key);
+                await FileUtil.SaveFile(image.Image, folder, key);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -188,8 +171,6 @@ namespace SteelDoorRecipeAPIOdata.Controllers
                     throw;
                 }
             }
-            return Updated(existingNote);
-            */
             return Ok();
         }
 

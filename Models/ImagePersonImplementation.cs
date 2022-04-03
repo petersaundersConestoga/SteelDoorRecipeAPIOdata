@@ -15,7 +15,7 @@ namespace SteelDoorRecipeAPIOdata.Models
         public ImagePersonImplementation(ImagePerson person)
         {
             this.Id = person.Id;
-            this.PersonId = person.Id;
+            this.PersonId = person.PersonId;
             this.Location = "";
             this.Image = FileUtil.GetFile(person.Location).GetAwaiter().GetResult();
             this.FileType = person.Location.Substring(person.Location.Length - 3);

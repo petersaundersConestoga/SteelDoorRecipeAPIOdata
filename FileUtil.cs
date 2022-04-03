@@ -5,7 +5,7 @@
     // but instead I am going to read the image headers to determine what is what
     public static class FileUtil
     {
-        private static string baseFilePath = System.Configuration.ConfigurationManager.AppSettings["Root"].ToString();
+        private static string baseFilePath = "C:\\";//System.Configuration.ConfigurationManager.AppSettings["Root"].ToString();
         private const string SUCCESS = "Create Success!";
         private static byte[] SIGNATURE_PNG = new byte[8] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
         private static byte[] SIGNATURE_JPEG = new byte[4] { 0xFF, 0xD8, 0xFF, 0xD9 };
@@ -23,7 +23,7 @@
             {
                 try
                 {
-                    string filePath = baseFilePath + root + "\\" + id + extension;
+                    string filePath = baseFilePath + "\\" + root + "\\" + id + extension;
                     await File.WriteAllBytesAsync(filePath, image);
                     Console.WriteLine(SUCCESS);
                 } catch (Exception ex)
