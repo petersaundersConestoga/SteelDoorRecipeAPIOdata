@@ -8,17 +8,17 @@ namespace SteelDoorRecipeAPIOdata.Models
     // we cannot work directly with the ImagePerson Model as it depends on the db
     // so we create a new version that can deal with our need to store the byte[]
     // https://weblogs.asp.net/mehfuzh/writing-custom-linq-provider#comment-627
-    public class ImagePersonImplementation : ImagePerson 
+    public class ImageRecipeImplementation : ImageRecipe 
     {
-        public ImagePersonImplementation() { }
+        public ImageRecipeImplementation() { }
 
-        public ImagePersonImplementation(ImagePerson person)
+        public ImageRecipeImplementation(ImageRecipe recipe)
         {
-            this.Id = person.Id;
-            this.PersonId = person.PersonId;
+            this.Id = recipe.Id;
+            this.RecipeId = recipe.RecipeId;
             this.Location = "";
-            this.Image = FileUtil.GetFile(person.Location).GetAwaiter().GetResult();
-            this.FileType = person.Location.Substring(person.Location.Length - 3);
+            this.Image = FileUtil.GetFile(recipe.Location).GetAwaiter().GetResult();
+            this.FileType = recipe.Location.Substring(recipe.Location.Length - 3);
         }
         public byte[] Image { get; set; } = new byte[] { 0x00 };
         public string FileType { get; set; } = "";

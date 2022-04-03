@@ -12,17 +12,17 @@ using System.Text.Json;
 
 namespace SteelDoorRecipeAPIOdata.Controllers
 {
-    public class ImagePersonImplementationController : ODataController
+    public class ImageRecipeImplementationController : ODataController
     {
         private readonly CapstoneRecipeDatabaseContext _db;
-        private readonly ILogger<ImagePersonImplementationController> _logger;
+        private readonly ILogger<ImageRecipeImplementationController> _logger;
         private readonly IConfiguration _config;
-        private string folder = "personimage";
+        private string folder = "recipeimage";
         private string root = "";
 
-        public ImagePersonImplementationController(
+        public ImageRecipeImplementationController(
                 CapstoneRecipeDatabaseContext dbContext, 
-                ILogger<ImagePersonImplementationController> logger,
+                ILogger<ImageRecipeImplementationController> logger,
                 IConfiguration config)
         {
             _db = dbContext;
@@ -31,23 +31,23 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery(PageSize = 15)]
-        public async Task<IQueryable<ImagePersonImplementation>> Get()
+        public async Task<IQueryable<ImageRecipeImplementation>> Get()
         {
             // we do not store the image in the database
             // thus we need to go get it
             // unfortunately due to this we need to convert between our database model an a version with the byte[]
-            List<ImagePersonImplementation> result = new List<ImagePersonImplementation>();
-            ImagePersonImplementation implementation = null;
+            List<ImageRecipeImplementation> result = new List<ImageRecipeImplementation>();
+            ImageRecipeImplementation implementation = null;
 
-            await foreach (ImagePerson currentPerson in _db.ImagePeople.AsAsyncEnumerable())
+            await foreach (ImageRecipe currentRecipe in _db.ImageRecipes.AsAsyncEnumerable())
             {
                 // create a new implementation, fill, place into the return list
-                implementation = new ImagePersonImplementation();
-                implementation.Id = currentPerson.Id;
-                implementation.PersonId = currentPerson.PersonId;
-                implementation.Image = await FileUtil.GetFile(currentPerson.Location);
+                implementation = new ImageRecipeImplementation();
+                implementation.Id = currentRecipe.Id;
+                implementation.RecipeId = currentRecipe.RecipeId;
+                implementation.Image = await FileUtil.GetFile(currentRecipe.Location);
                 implementation.Location = "";
-                implementation.FileType = currentPerson.Location.Substring(currentPerson.Location.Length - 3);
+                implementation.FileType = currentRecipe.Location.Substring(currentRecipe.Location.Length - 3);
 
                 result.Add(implementation);
             }
@@ -55,22 +55,22 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public SingleResult<ImagePersonImplementation> Get([FromODataUri] int key)
+        public SingleResult<ImageRecipeImplementation> Get([FromODataUri] int key)
         {
             // get the image model from the db
-            IQueryable<ImagePerson> result = _db.ImagePeople.Where(c => c.Id == key);
+            IQueryable<ImageRecipe> result = _db.ImageRecipes.Where(c => c.Id == key);
 
             // we only want one, so convert to single result
-            SingleResult<ImagePerson> myResult = SingleResult.Create(result);
+            SingleResult<ImageRecipe> myResult = SingleResult.Create(result);
 
-            // create a new image person implementation with the single result
-            ImagePersonImplementation i =  new (myResult.Queryable.First());
+            // create a new image Recipe implementation with the single result
+            ImageRecipeImplementation i =  new (myResult.Queryable.First());
 
             // implement it as in enumerable
             // follow here
             // https://qawithexperts.com/questions/463/how-do-i-create-object-for-iqueryable-in-c
-            IQueryable<ImagePersonImplementation> iq =
-                Enumerable.Empty<ImagePersonImplementation>().AsQueryable();
+            IQueryable<ImageRecipeImplementation> iq =
+                Enumerable.Empty<ImageRecipeImplementation>().AsQueryable();
             
 
             // return the queryable as a single result
@@ -78,38 +78,38 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Post([FromBody] ImagePersonImplementation personImplementation)
+        public async Task<IActionResult> Post([FromBody] ImageRecipeImplementation RecipeImplementation)
         {
-            await FileUtil.SaveFile(personImplementation.Image, root, personImplementation.Id);
-            ImagePerson person = new ImagePerson(personImplementation);
-            person.Location = GetLocation(personImplementation.Id, personImplementation.Image);
-            _db.ImagePeople.Add(person);
+            await FileUtil.SaveFile(RecipeImplementation.Image, root, RecipeImplementation.Id);
+            ImageRecipe Recipe = new ImageRecipe(RecipeImplementation);
+            Recipe.Location = GetLocation(RecipeImplementation.Id, RecipeImplementation.Image);
+            _db.ImageRecipes.Add(Recipe);
             await _db.SaveChangesAsync();
-            return Created(personImplementation);
+            return Created(RecipeImplementation);
         }
 
         [EnableQuery]
         public async Task<IActionResult> Patch([FromODataUri] int key)
         {
-            ImagePersonImplementation image = null;
+            ImageRecipeImplementation image = null;
             try
             {
                 var req = Request.Body;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string rawjson = await new StreamReader(req).ReadToEndAsync();
-                image = JsonSerializer.Deserialize<ImagePersonImplementation>(rawjson);
+                image = JsonSerializer.Deserialize<ImageRecipeImplementation>(rawjson);
             } catch (Exception ex) {
                 Console.WriteLine(ex.InnerException);
             }
-            var existingNote = await _db.ImagePeople.FindAsync(key);
+            var existingNote = await _db.ImageRecipes.FindAsync(key);
             if (existingNote == null)
             {
                 return NotFound();
             }
 
-            ImagePerson myPerson = new ImagePerson(image);
+            ImageRecipe myRecipe = new ImageRecipe(image);
 
-            myPerson.Patch(existingNote);
+            myRecipe.Patch(existingNote);
             try
             {
                 await _db.SaveChangesAsync();
@@ -117,7 +117,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImagePersonExists(key))
+                if (!ImageRecipeExists(key))
                 {
                     return NotFound();
                 }
@@ -132,25 +132,25 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Put([FromODataUri] int key)
         {
-            ImagePersonImplementation image = null;
+            ImageRecipeImplementation image = null;
             try
             {
                 var req = Request.Body;
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 string rawjson = await new StreamReader(req).ReadToEndAsync();
-                image = JsonSerializer.Deserialize<ImagePersonImplementation>(rawjson);
+                image = JsonSerializer.Deserialize<ImageRecipeImplementation>(rawjson);
             } catch (Exception ex) {
                 Console.WriteLine(ex.InnerException);
             }
-            var existingNote = await _db.ImagePeople.FindAsync(key);
+            var existingNote = await _db.ImageRecipes.FindAsync(key);
             if (existingNote == null)
             {
                 return NotFound();
             }
 
-            ImagePerson myPerson = new ImagePerson(image);
+            ImageRecipe myRecipe = new ImageRecipe(image);
 
-            myPerson.Patch(existingNote);
+            myRecipe.Patch(existingNote);
             try
             {
                 await _db.SaveChangesAsync();
@@ -158,7 +158,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImagePersonExists(key))
+                if (!ImageRecipeExists(key))
                 {
                     return NotFound();
                 }
@@ -173,21 +173,21 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Delete([FromODataUri] int key)
         {
-            ImagePerson existingImagePerson = await _db.ImagePeople.FindAsync(key);
-            if (existingImagePerson == null)
+            ImageRecipe existingImageRecipe = await _db.ImageRecipes.FindAsync(key);
+            if (existingImageRecipe == null)
             {
                 return NotFound();
             }
 
-            _db.ImagePeople.Remove(existingImagePerson);
+            _db.ImageRecipes.Remove(existingImageRecipe);
             await _db.SaveChangesAsync();
-            FileUtil.DeleteFile(existingImagePerson.Location);
+            FileUtil.DeleteFile(existingImageRecipe.Location);
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        private bool ImagePersonExists(int key)
+        private bool ImageRecipeExists(int key)
         {
-            return _db.ImagePeople.Any(p => p.Id == key);
+            return _db.ImageRecipes.Any(p => p.Id == key);
         }
 
         private string GetLocation(int id, byte[] img)
