@@ -68,6 +68,7 @@ builder.Services.AddSwaggerGen(c =>{c.SwaggerDoc("v1", new() { Title = "OData Re
 
 builder.Services.AddDbContext<CapstoneRecipeDatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers().AddOData(
+    // odata commands
     opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
 
 // 1. Add Authentication Services
