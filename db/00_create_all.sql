@@ -230,6 +230,95 @@ GO
 ALTER TABLE [dbo].[Cuisine] ADD  CONSTRAINT [DF_Cuisine_Country]  DEFAULT (N'd') FOR [Country]
 GO
 
+-- person
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [FK_Person_AccountType]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_FailedLoginCount]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Password]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Username]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_EmailNewsletter]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_EmailUpdates]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Email]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_FirstName]
+GO
+
+ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_AccountTypeId]
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Person]') AND type in (N'U'))
+DROP TABLE [dbo].[Person]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Person](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AccountTypeId] [int] NOT NULL,
+	[FirstName] [varchar](255) NOT NULL,
+	[LastName] [varchar](255) NOT NULL,
+	[Email] [varchar](255) NOT NULL,
+	[EmailUpdates] [bit] NULL,
+	[EmailNewsletter] [bit] NULL,
+	[Username] [varchar](255) NOT NULL,
+	[Password] [varchar](255) NOT NULL,
+	[FailedLoginCount] [int] NOT NULL,
+ CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_AccountTypeId]  DEFAULT ((0)) FOR [AccountTypeId]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FirstName]  DEFAULT ('d') FOR [FirstName]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Email]  DEFAULT ('d') FOR [Email]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_EmailUpdates]  DEFAULT ((0)) FOR [EmailUpdates]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_EmailNewsletter]  DEFAULT ((0)) FOR [EmailNewsletter]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Username]  DEFAULT ('d') FOR [Username]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Password]  DEFAULT ('d') FOR [Password]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FailedLoginCount]  DEFAULT ((0)) FOR [FailedLoginCount]
+GO
+
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_AccountType] FOREIGN KEY([AccountTypeId])
+REFERENCES [dbo].[AccountType] ([Id])
+ON UPDATE CASCADE
+ON DELETE SET DEFAULT
+GO
+
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_AccountType]
+GO
+
 -- recipe
 ALTER TABLE [dbo].[Recipe] DROP CONSTRAINT [FK_Recipe_Cuisine]
 GO
@@ -300,6 +389,12 @@ ALTER TABLE [dbo].[Recipe] ADD  CONSTRAINT [DF_Recipe_Story]  DEFAULT (N'd') FOR
 GO
 
 ALTER TABLE [dbo].[Recipe] ADD  CONSTRAINT [DF_Recipe_Difficulty]  DEFAULT ((0)) FOR [Difficulty]
+GO
+
+ALTER TABLE [dbo].[Recipe]  WITH CHECK ADD  CONSTRAINT [FK_Recipe_Person] FOREIGN KEY([PersonId])
+REFERENCES [dbo].[Person] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Recipe]  WITH CHECK ADD  CONSTRAINT [FK_Recipe_Cuisine] FOREIGN KEY([CuisineId])
@@ -459,36 +554,27 @@ GO
 ALTER TABLE [dbo].[IngredientList] CHECK CONSTRAINT [FK_IngredientList_Unit]
 GO
 
--- person
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [FK_Person_AccountType]
+-- review
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_IHaveAQuestion]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_FailedLoginCount]
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_IMadeThis]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Password]
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_Votes]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Username]
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_PublishDate]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_EmailNewsletter]
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_Comment]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_EmailUpdates]
+ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_RatingValue]
 GO
 
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_Email]
-GO
-
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_FirstName]
-GO
-
-ALTER TABLE [dbo].[Person] DROP CONSTRAINT [DF_Person_AccountTypeId]
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Person]') AND type in (N'U'))
-DROP TABLE [dbo].[Person]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Review]') AND type in (N'U'))
+DROP TABLE [dbo].[Review]
 GO
 
 SET ANSI_NULLS ON
@@ -497,55 +583,37 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[Person](
+CREATE TABLE [dbo].[Review](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[AccountTypeId] [int] NOT NULL,
-	[FirstName] [varchar](255) NOT NULL,
-	[LastName] [varchar](255) NOT NULL,
-	[Email] [varchar](255) NOT NULL,
-	[EmailUpdates] [bit] NULL,
-	[EmailNewsletter] [bit] NULL,
-	[Username] [varchar](255) NOT NULL,
-	[Password] [varchar](255) NOT NULL,
-	[FailedLoginCount] [int] NOT NULL,
- CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
+	[RatingValue] [int] NOT NULL,
+	[Comment] [nvarchar](255) NULL,
+	[PublishDate] [date] NOT NULL,
+	[Votes] [int] NOT NULL,
+	[IMadeThis] [bit] NULL,
+	[IHaveAQuestion] [bit] NULL,
+ CONSTRAINT [PK_Review] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_AccountTypeId]  DEFAULT ((0)) FOR [AccountTypeId]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_RatingValue]  DEFAULT ((0)) FOR [RatingValue]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FirstName]  DEFAULT ('d') FOR [FirstName]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_Comment]  DEFAULT (N'd') FOR [Comment]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Email]  DEFAULT ('d') FOR [Email]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_PublishDate]  DEFAULT (getdate()) FOR [PublishDate]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_EmailUpdates]  DEFAULT ((0)) FOR [EmailUpdates]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_Votes]  DEFAULT ((0)) FOR [Votes]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_EmailNewsletter]  DEFAULT ((0)) FOR [EmailNewsletter]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_IMadeThis]  DEFAULT ((0)) FOR [IMadeThis]
 GO
 
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Username]  DEFAULT ('d') FOR [Username]
-GO
-
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Password]  DEFAULT ('d') FOR [Password]
-GO
-
-ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FailedLoginCount]  DEFAULT ((0)) FOR [FailedLoginCount]
-GO
-
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_AccountType] FOREIGN KEY([AccountTypeId])
-REFERENCES [dbo].[AccountType] ([Id])
-ON UPDATE CASCADE
-ON DELETE SET DEFAULT
-GO
-
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_AccountType]
+ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_IHaveAQuestion]  DEFAULT ((0)) FOR [IHaveAQuestion]
 GO
 
 -- person review
@@ -609,8 +677,8 @@ GO
 
 ALTER TABLE [dbo].[PersonReview]  WITH CHECK ADD  CONSTRAINT [FK_PersonReview_Recipe] FOREIGN KEY([RecipeId])
 REFERENCES [dbo].[Recipe] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
 GO
 
 ALTER TABLE [dbo].[PersonReview] CHECK CONSTRAINT [FK_PersonReview_Recipe]
@@ -678,68 +746,6 @@ ALTER TABLE [dbo].[DietList]  WITH CHECK ADD  CONSTRAINT [FK_DietList_Recipe] FO
 REFERENCES [dbo].[Recipe] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
-GO
-
--- review
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_IHaveAQuestion]
-GO
-
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_IMadeThis]
-GO
-
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_Votes]
-GO
-
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_PublishDate]
-GO
-
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_Comment]
-GO
-
-ALTER TABLE [dbo].[Review] DROP CONSTRAINT [DF_Review_RatingValue]
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Review]') AND type in (N'U'))
-DROP TABLE [dbo].[Review]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[Review](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[RatingValue] [int] NOT NULL,
-	[Comment] [nvarchar](255) NULL,
-	[PublishDate] [date] NOT NULL,
-	[Votes] [int] NOT NULL,
-	[IMadeThis] [bit] NULL,
-	[IHaveAQuestion] [bit] NULL,
- CONSTRAINT [PK_Review] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_RatingValue]  DEFAULT ((0)) FOR [RatingValue]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_Comment]  DEFAULT (N'd') FOR [Comment]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_PublishDate]  DEFAULT (getdate()) FOR [PublishDate]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_Votes]  DEFAULT ((0)) FOR [Votes]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_IMadeThis]  DEFAULT ((0)) FOR [IMadeThis]
-GO
-
-ALTER TABLE [dbo].[Review] ADD  CONSTRAINT [DF_Review_IHaveAQuestion]  DEFAULT ((0)) FOR [IHaveAQuestion]
 GO
 
 -- image person
@@ -1164,5 +1170,3 @@ REFERENCES [dbo].[Recipe] ([Id])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
-/*
-*/

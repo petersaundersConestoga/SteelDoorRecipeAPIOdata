@@ -27,6 +27,7 @@ namespace SteelDoorRecipeAPIOdata
         public int Difficulty { get; set; }
 
         public virtual Cuisine Cuisine { get; set; } = null!;
+        public virtual Person Person { get; set; } = null!;
         public virtual ICollection<DietList> DietLists { get; set; }
         public virtual ICollection<ImageRecipe> ImageRecipes { get; set; }
         public virtual ICollection<IngredientList> IngredientLists { get; set; }

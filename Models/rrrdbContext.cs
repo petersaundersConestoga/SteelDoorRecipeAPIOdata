@@ -263,7 +263,13 @@ namespace SteelDoorRecipeAPIOdata
                 entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.PersonReviews)
                     .HasForeignKey(d => d.RecipeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PersonReview_Recipe");
+
+                entity.HasOne(d => d.Review)
+                    .WithMany(p => p.PersonReviews)
+                    .HasForeignKey(d => d.ReviewId)
+                    .HasConstraintName("FK_PersonReview_Review");
             });
 
             modelBuilder.Entity<PublishState>(entity =>
@@ -303,6 +309,11 @@ namespace SteelDoorRecipeAPIOdata
                     .HasForeignKey(d => d.CuisineId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Recipe_Cuisine");
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.Recipes)
+                    .HasForeignKey(d => d.PersonId)
+                    .HasConstraintName("FK_Recipe_Person");
             });
 
             modelBuilder.Entity<Review>(entity =>

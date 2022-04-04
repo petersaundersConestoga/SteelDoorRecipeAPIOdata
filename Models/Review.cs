@@ -7,6 +7,7 @@ namespace SteelDoorRecipeAPIOdata
     {
         public Review()
         {
+            PersonReviews = new HashSet<PersonReview>();
             PublishStates = new HashSet<PublishState>();
         }
 
@@ -18,6 +19,7 @@ namespace SteelDoorRecipeAPIOdata
         public bool? ImadeThis { get; set; }
         public bool? IhaveAquestion { get; set; }
 
+        public virtual ICollection<PersonReview> PersonReviews { get; set; }
         public virtual ICollection<PublishState> PublishStates { get; set; }
     }
 }

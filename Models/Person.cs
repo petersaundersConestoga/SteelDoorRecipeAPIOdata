@@ -10,6 +10,7 @@ namespace SteelDoorRecipeAPIOdata
             AccountManagers = new HashSet<AccountManager>();
             ImagePeople = new HashSet<ImagePerson>();
             PersonReviews = new HashSet<PersonReview>();
+            Recipes = new HashSet<Recipe>();
         }
 
         public int Id { get; set; }
@@ -27,5 +28,6 @@ namespace SteelDoorRecipeAPIOdata
         public virtual ICollection<AccountManager> AccountManagers { get; set; }
         public virtual ICollection<ImagePerson> ImagePeople { get; set; }
         public virtual ICollection<PersonReview> PersonReviews { get; set; }
+        public virtual ICollection<Recipe> Recipes { get; set; }
     }
 }
