@@ -36,6 +36,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] Recipe recipe)
         {
+            //recipe.Remove(recipe.Id);
             _db.Recipes.Add(recipe);
             await _db.SaveChangesAsync();
             return Created(recipe);
