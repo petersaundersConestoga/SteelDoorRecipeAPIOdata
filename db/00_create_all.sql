@@ -279,6 +279,7 @@ CREATE TABLE [dbo].[Person](
 	[Username] [varchar](255) NOT NULL,
 	[Password] [varchar](255) NOT NULL,
 	[FailedLoginCount] [int] NOT NULL,
+	[About] [varchar](3750) NOT NULL,
  CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -308,6 +309,9 @@ ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Password]  DEFAULT ('d') F
 GO
 
 ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FailedLoginCount]  DEFAULT ((0)) FOR [FailedLoginCount]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_About]  DEFAULT ('d') FOR [About]
 GO
 
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_AccountType] FOREIGN KEY([AccountTypeId])

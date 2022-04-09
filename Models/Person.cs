@@ -23,6 +23,7 @@ namespace SteelDoorRecipeAPIOdata
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
         public int FailedLoginCount { get; set; }
+        public string About { get; set; } = null!;
 
         public virtual AccountType AccountType { get; set; } = null!;
         public virtual ICollection<AccountManager> AccountManagers { get; set; }

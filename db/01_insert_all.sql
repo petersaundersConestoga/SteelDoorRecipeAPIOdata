@@ -24,13 +24,14 @@ INSERT INTO [dbo].[Person]
            ,[EmailNewsletter]
            ,[Username]
            ,[Password]
-           ,[FailedLoginCount])
+           ,[FailedLoginCount]
+		   ,[About])
      VALUES
-           (2, 'albert', 'albatross', 'albert@albatross.net', 1, 1, 'aalbatross', 'aaa', 0),
-           (2, 'brittany', 'bert', 'brittany@bert.org', 1, 0, 'bbert', 'bbb', 0),
-           (2, 'christina', 'chen', 'christina@chen.ca', 0, 1, 'cchen', 'ccc', 0),
-           (1, 'daphne', 'dunder', 'daphne@dunder.nl', 1, 1, 'ddunder', 'ddd', 0),
-           (1, 'emory', 'excel', 'emory@excel.com', 1, 1, 'excel2020', 'eee', 0)
+           (2, 'albert', 'albatross', 'albert@albatross.net', 1, 1, 'aalbatross', 'aaa', 0, 'like long crabs on the beach'),
+           (2, 'brittany', 'bert', 'brittany@bert.org', 1, 0, 'bbert', 'bbb', 0, 'could you not read this please'),
+           (2, 'christina', 'chen', 'christina@chen.ca', 0, 1, 'cchen', 'ccc', 0, 'I like all things about food! The tastes, smells, the way my grandmother helps me. Everything about food is just so amazing to me!'),
+           (1, 'daphne', 'dunder', 'daphne@dunder.nl', 1, 1, 'ddunder', 'ddd', 0, 'I''m not sure why I keep putting up recipes here. I don''t even like the taste of things haha. Texture though. Texture is something I can get behind.'),
+           (1, 'emory', 'excel', 'emory@excel.com', 1, 1, 'excel2020', 'eee', 0, 'oh foods of long gone times where are you now, are you here, are you there, what are you even doing out there')
 GO
 
 -- account manager

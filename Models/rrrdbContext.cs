@@ -39,11 +39,6 @@ namespace SteelDoorRecipeAPIOdata
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=PUNCH-AND-JUDY\\SQLEXPRESS;Initial Catalog=rrr-db;Integrated Security=True");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -215,6 +210,11 @@ namespace SteelDoorRecipeAPIOdata
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.ToTable("Person");
+
+                entity.Property(e => e.About)
+                    .HasMaxLength(3750)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('d')");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
