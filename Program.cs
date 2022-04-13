@@ -12,6 +12,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using ml;
+using Microsoft.Extensions.Configuration;
 
 static IEdmModel GetEdmModel()
 {
@@ -125,12 +126,14 @@ app.UseCors(MyCorsSettings);
 app.UseAuthorization();
 
 app.MapGet("/helloWorld", () => "Hello World!");
-app.MapGet("/Trump", async () => { 
+app.MapGet("/generate/Trump", async () => { 
     using var client = new HttpClient();
-    return await client.GetStringAsync("http://localhost:8086/trump");
+    var flask = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Flask"];
+    return await client.GetStringAsync(flask + "/trump");
 });
 
-app.MapPost("/Trump", async (HttpRequest request) => { 
+app.MapPost("/generate/Trump", async (HttpRequest request) => { 
+    var flask = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Flask"];
     using var client = new HttpClient();
     var req = request.Body;
     req.Seek(0, System.IO.SeekOrigin.Begin);
@@ -150,7 +153,7 @@ app.MapPost("/Trump", async (HttpRequest request) => {
     HttpResponseMessage respraw = null;
     try
     {
-        respraw = await client.PostAsync("http://localhost:8086/trump", httpcontent);
+        respraw = await client.PostAsync(flask + "/trump", httpcontent);
     } catch (Exception e)
     {
         Console.WriteLine(e.InnerException);
