@@ -8,6 +8,10 @@ using SteelDoorRecipeAPIOdata.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using SteelDoorRecipeAPIOdata;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using ml;
 
 static IEdmModel GetEdmModel()
 {
@@ -79,6 +83,18 @@ builder.Services.AddControllers().AddOData(
         .OrderBy()
     );
 
+// we need an http client to talk to the local flask server
+// review here https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0
+/*
+builder.Services.AddHttpClient("Flask", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("localhost:8086");
+
+    // may need to add headers;
+    httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+    httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "rrr-api");
+});
+
 // 1. Add Authentication Services
 /*
 builder.Services.AddAuthentication(options =>
@@ -108,7 +124,42 @@ app.UseCors(MyCorsSettings);
 //app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/helloWorld", () => "Hello World");
+app.MapGet("/helloWorld", () => "Hello World!");
+app.MapGet("/Trump", async () => { 
+    using var client = new HttpClient();
+    return await client.GetStringAsync("http://localhost:8086/trump");
+});
+
+app.MapPost("/Trump", async (HttpRequest request) => { 
+    using var client = new HttpClient();
+    var req = request.Body;
+    req.Seek(0, System.IO.SeekOrigin.Begin);
+    string rawjson = "";
+    try
+    {
+        rawjson = await new StreamReader(req).ReadToEndAsync();
+    } catch (Exception ex)
+    {
+        Console.WriteLine(ex.InnerException);
+    }
+        
+    var json = JsonSerializer.Deserialize<Story>(rawjson);
+    string jsonstring = JsonSerializer.Serialize(json);
+    StringContent httpcontent = new StringContent(jsonstring, System.Text.Encoding.UTF8, "text/plain");
+
+    HttpResponseMessage respraw = null;
+    try
+    {
+        respraw = await client.PostAsync("http://localhost:8086/trump", httpcontent);
+    } catch (Exception e)
+    {
+        Console.WriteLine(e.InnerException);
+    }
+    var respcontent = await respraw.Content.ReadAsStringAsync();
+    Console.WriteLine(respcontent);
+    return respcontent;
+});
+
 app.MapControllers();
 
 app.Use(async (context, next) =>
