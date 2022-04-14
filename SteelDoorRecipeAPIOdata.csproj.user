@@ -11,6 +11,6 @@
     <WebStackScaffolding_DbContextTypeFullName>SteelDoorRecipeAPIOdata.Models.CapstoneRecipeDatabaseContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_IsViewGenerationSelected>False</WebStackScaffolding_IsViewGenerationSelected>
-    <NameOfLastUsedPublishProfile>C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\Properties\PublishProfiles\FolderProfile1.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\peter\source\repos\SteelDoorRecipeAPIOdata\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
