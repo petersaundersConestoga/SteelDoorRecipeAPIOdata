@@ -18,7 +18,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         private readonly ILogger<ImageRecipeImplementationController> _logger;
         private readonly IConfiguration _config;
         private string folder = "recipeimage";
-        private string root = "";
+        private string root = "C:\\";
 
         public ImageRecipeImplementationController(
                 rrrdbContext dbContext, 
@@ -80,7 +80,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] ImageRecipeImplementation RecipeImplementation)
         {
-            await FileUtil.SaveFile(RecipeImplementation.Image, root, RecipeImplementation.Id);
+            await FileUtil.SaveFile(RecipeImplementation.Image, folder, RecipeImplementation.Id);
             ImageRecipe Recipe = new ImageRecipe(RecipeImplementation);
             Recipe.Location = GetLocation(RecipeImplementation.Id, RecipeImplementation.Image);
             _db.ImageRecipes.Add(Recipe);

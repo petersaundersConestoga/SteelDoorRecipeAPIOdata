@@ -18,7 +18,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         private readonly ILogger<ImagePersonImplementationController> _logger;
         private readonly IConfiguration _config;
         private string folder = "personimage";
-        private string root = "";
+        private string root = "C:\\";
 
         public ImagePersonImplementationController(
                 rrrdbContext dbContext, 
@@ -80,12 +80,19 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] ImagePersonImplementation personImplementation)
         {
-            await FileUtil.SaveFile(personImplementation.Image, root, personImplementation.Id);
-            ImagePerson person = new ImagePerson(personImplementation);
-            person.Location = GetLocation(personImplementation.Id, personImplementation.Image);
-            _db.ImagePeople.Add(person);
-            await _db.SaveChangesAsync();
-            return Created(personImplementation);
+            try
+            {
+                ImagePerson person = new ImagePerson(personImplementation);
+                _db.ImagePeople.Add(person);
+                await _db.SaveChangesAsync();
+                await FileUtil.SaveFile(personImplementation.Image, folder, person.PersonId);
+                person.Location = GetLocation(personImplementation.Id, personImplementation.Image);
+                return Created(personImplementation);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+            }
+            return NotFound();
         }
 
         [EnableQuery]

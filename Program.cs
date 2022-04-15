@@ -111,11 +111,11 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (true) //app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OData SteelDoor v1"));
-    //app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
