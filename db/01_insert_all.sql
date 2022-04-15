@@ -25,13 +25,14 @@ INSERT INTO [dbo].[Person]
            ,[Username]
            ,[Password]
            ,[FailedLoginCount]
-		   ,[About])
+		   ,[About]
+		   ,[Image])
      VALUES
-           (2, 'albert', 'albatross', 'albert@albatross.net', 1, 1, 'aalbatross', 'aaa', 0, 'like long crabs on the beach'),
-           (2, 'brittany', 'bert', 'brittany@bert.org', 1, 0, 'bbert', 'bbb', 0, 'could you not read this please'),
-           (2, 'christina', 'chen', 'christina@chen.ca', 0, 1, 'cchen', 'ccc', 0, 'I like all things about food! The tastes, smells, the way my grandmother helps me. Everything about food is just so amazing to me!'),
-           (1, 'daphne', 'dunder', 'daphne@dunder.nl', 1, 1, 'ddunder', 'ddd', 0, 'I''m not sure why I keep putting up recipes here. I don''t even like the taste of things haha. Texture though. Texture is something I can get behind.'),
-           (1, 'emory', 'excel', 'emory@excel.com', 1, 1, 'excel2020', 'eee', 0, 'oh foods of long gone times where are you now, are you here, are you there, what are you even doing out there')
+           (2, 'albert', 'albatross', 'albert@albatross.net', 1, 1, 'aalbatross', 'aaa', 0, 'like long crabs on the beach', '1.jpg'),
+           (2, 'brittany', 'bert', 'brittany@bert.org', 1, 0, 'bbert', 'bbb', 0, 'could you not read this please', '2.jpg'),
+           (2, 'christina', 'chen', 'christina@chen.ca', 0, 1, 'cchen', 'ccc', 0, 'I like all things about food! The tastes, smells, the way my grandmother helps me. Everything about food is just so amazing to me!', '3.jpg'),
+           (1, 'daphne', 'dunder', 'daphne@dunder.nl', 1, 1, 'ddunder', 'ddd', 0, 'I''m not sure why I keep putting up recipes here. I don''t even like the taste of things haha. Texture though. Texture is something I can get behind.', 'no_image.png'),
+           (1, 'emory', 'excel', 'emory@excel.com', 1, 1, 'excel2020', 'eee', 0, 'oh foods of long gone times where are you now, are you here, are you there, what are you even doing out there', 'no_image.png')
 GO
 
 -- account manager
@@ -172,12 +173,13 @@ INSERT INTO [dbo].[Recipe]
            ,[CreationDate]
            ,[ServingCount]
            ,[Story]
-           ,[Difficulty])
+           ,[Difficulty]
+		   ,[Image])
      VALUES
-           (1,1,'banana pancakes', convert(date,'2022-2-22'), 4,'with great power comes great responsibility', 2),
-           (2,13,'chili dogs', convert(date,'2022-1-22'), 4,'come now, come many, leave now for forever more', 1),
-           (2,5,'buldak', convert(date,'2021-2-11'), 6,'hot hot hot, chicken hot chicken', 3),
-           (3,1,'bulletproof coffee', convert(date,'2022-2-26'), 1,'bring it, bring me hot, bring me now', 1)
+           (1,1,'banana pancakes', convert(date,'2022-2-22'), 4,'with great power comes great responsibility', 2, '1.jpg'),
+           (2,13,'chili dogs', convert(date,'2022-1-22'), 4,'come now, come many, leave now for forever more', 1, '2.jpg'),
+           (2,5,'buldak', convert(date,'2021-2-11'), 6,'hot hot hot, chicken hot chicken', 3, '3.jpg'),
+           (3,1,'bulletproof coffee', convert(date,'2022-2-26'), 1,'bring it, bring me hot, bring me now', 1, 'no_image.png')
 GO
 
 -- timing
@@ -329,6 +331,7 @@ INSERT INTO [dbo].[PersonReview]
            (1,4,1)
 GO
 
+/*
 -- image recipe
 INSERT INTO [dbo].[ImageRecipe]
            ([RecipeId]
@@ -348,3 +351,4 @@ INSERT INTO [dbo].[ImagePerson]
            (2,'C:\personimage\2.jpg'),
            (3,'C:\personimage\3.jpg')
 GO
+*/

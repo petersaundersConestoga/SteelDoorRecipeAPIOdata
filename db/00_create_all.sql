@@ -280,6 +280,7 @@ CREATE TABLE [dbo].[Person](
 	[Password] [varchar](255) NOT NULL,
 	[FailedLoginCount] [int] NOT NULL,
 	[About] [varchar](3750) NOT NULL,
+	[Image] [varchar](255) NOT NULL,
  CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -312,6 +313,9 @@ ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_FailedLoginCount]  DEFAULT
 GO
 
 ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_About]  DEFAULT ('d') FOR [About]
+GO
+
+ALTER TABLE [dbo].[Person] ADD  CONSTRAINT [DF_Person_Image]  DEFAULT ('no_image.png') FOR [Image]
 GO
 
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_AccountType] FOREIGN KEY([AccountTypeId])
@@ -367,6 +371,7 @@ CREATE TABLE [dbo].[Recipe](
 	[ServingCount] [int] NOT NULL,
 	[Story] [nvarchar](4000) NOT NULL,
 	[Difficulty] [int] NOT NULL,
+	[Image] [varchar](255) NOT NULL,
  CONSTRAINT [PK_Recipe] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -393,6 +398,9 @@ ALTER TABLE [dbo].[Recipe] ADD  CONSTRAINT [DF_Recipe_Story]  DEFAULT (N'd') FOR
 GO
 
 ALTER TABLE [dbo].[Recipe] ADD  CONSTRAINT [DF_Recipe_Difficulty]  DEFAULT ((0)) FOR [Difficulty]
+GO
+
+ALTER TABLE [dbo].[Recipe] ADD  CONSTRAINT [DF_Recipe_Image]  DEFAULT (('no_image.png')) FOR [Image]
 GO
 
 ALTER TABLE [dbo].[Recipe]  WITH CHECK ADD  CONSTRAINT [FK_Recipe_Person] FOREIGN KEY([PersonId])
@@ -441,6 +449,7 @@ ALTER TABLE [dbo].[DietList] CHECK CONSTRAINT [FK_DietList_Recipe]
 GO
 
 -- image recipe
+/*
 ALTER TABLE [dbo].[ImageRecipe] DROP CONSTRAINT [FK_ImageRecipe_Recipe]
 GO
 
@@ -485,7 +494,7 @@ GO
 
 ALTER TABLE [dbo].[ImageRecipe] CHECK CONSTRAINT [FK_ImageRecipe_Recipe]
 GO
-
+*/
 -- ingredient list
 ALTER TABLE [dbo].[IngredientList] DROP CONSTRAINT [FK_IngredientList_Unit]
 GO
@@ -753,6 +762,7 @@ ON DELETE CASCADE
 GO
 
 -- image person
+/*
 ALTER TABLE [dbo].[ImagePerson] DROP CONSTRAINT [FK_ImagePerson_Person]
 GO
 
@@ -797,7 +807,7 @@ GO
 
 ALTER TABLE [dbo].[ImagePerson] CHECK CONSTRAINT [FK_ImagePerson_Person]
 GO
-
+*/
 -- season
 ALTER TABLE [dbo].[Season] DROP CONSTRAINT [DF_Season_SeasonName]
 GO
