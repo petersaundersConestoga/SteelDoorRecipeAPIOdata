@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SteelDoorRecipeAPIOdata
 {
@@ -8,7 +9,6 @@ namespace SteelDoorRecipeAPIOdata
         public Person()
         {
             AccountManagers = new HashSet<AccountManager>();
-            ImagePeople = new HashSet<ImagePerson>();
             PersonReviews = new HashSet<PersonReview>();
             Recipes = new HashSet<Recipe>();
         }
@@ -24,10 +24,11 @@ namespace SteelDoorRecipeAPIOdata
         public string Password { get; set; } = null!;
         public int FailedLoginCount { get; set; }
         public string About { get; set; } = null!;
+        public string Image { get; set; } = null!;
+        public byte[]? File { get; set; }
 
         public virtual AccountType AccountType { get; set; } = null!;
         public virtual ICollection<AccountManager> AccountManagers { get; set; }
-        public virtual ICollection<ImagePerson> ImagePeople { get; set; }
         public virtual ICollection<PersonReview> PersonReviews { get; set; }
         public virtual ICollection<Recipe> Recipes { get; set; }
     }

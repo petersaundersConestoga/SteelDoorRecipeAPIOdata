@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using SteelDoorRecipeAPIOdata.Models;
+using System.Collections.Generic;
+//using SteelDoorRecipeAPIOdata.Models;
 
 namespace SteelDoorRecipeAPIOdata.Controllers
 {
@@ -13,6 +14,7 @@ namespace SteelDoorRecipeAPIOdata.Controllers
     {
         private readonly rrrdbContext _db;
         private readonly ILogger<PersonController> _logger;
+        private string path = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("FileLocation")["Person"];
 
         public PersonController(rrrdbContext dbContext, ILogger<PersonController> logger)
         {
@@ -21,15 +23,20 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery(PageSize = 15)]
-        public IQueryable<Person> Get()
+        public async Task<IQueryable<Person>> GetAsync()
         {
-            return _db.People;
+            var result = _db.People;
+            foreach (var person in result) { person.File = await FileUtil.GetFile(path + person.Image);}
+            return result;
         }
-
+        
         [EnableQuery]
-        public SingleResult<Person> Get([FromODataUri] int key)
+        public async Task<SingleResult<Person>> Get([FromODataUri] int key)
         {
             var result = _db.People.Where(c => c.Id == key);
+
+            foreach (Person person in result) { person.File = await FileUtil.GetFile(path + person.Image); }
+            
             return SingleResult.Create(result);
         }
 

@@ -9972,6 +9972,7 @@
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.2",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.2",
       "Swashbuckle.AspNetCore >= 6.2.3",
+      "System.Collections >= 4.3.0",
       "microsoft.aspnetcore.odata >= 8.0.8",
       "system.identitymodel.tokens.jwt >= 6.16.0"
     ]
@@ -10041,6 +10042,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
+          },
+          "System.Collections": {
+            "target": "Package",
+            "version": "[4.3.0, )"
           },
           "microsoft.aspnetcore.odata": {
             "target": "Package",

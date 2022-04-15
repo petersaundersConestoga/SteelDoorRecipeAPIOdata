@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[6.2.3, )"
             },
+            "System.Collections": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "microsoft.aspnetcore.odata": {
               "target": "Package",
               "version": "[8.0.8, )"

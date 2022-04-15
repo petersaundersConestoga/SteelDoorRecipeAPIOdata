@@ -23,8 +23,6 @@ namespace SteelDoorRecipeAPIOdata
         public virtual DbSet<Cuisine> Cuisines { get; set; } = null!;
         public virtual DbSet<Diet> Diets { get; set; } = null!;
         public virtual DbSet<DietList> DietLists { get; set; } = null!;
-        public virtual DbSet<ImagePerson> ImagePeople { get; set; } = null!;
-        public virtual DbSet<ImageRecipe> ImageRecipes { get; set; } = null!;
         public virtual DbSet<IngredientList> IngredientLists { get; set; } = null!;
         public virtual DbSet<Instruction> Instructions { get; set; } = null!;
         public virtual DbSet<Person> People { get; set; } = null!;
@@ -39,6 +37,11 @@ namespace SteelDoorRecipeAPIOdata
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=PUNCH-AND-JUDY\\SQLEXPRESS;Initial Catalog=rrr-db;Integrated Security=True");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -140,36 +143,6 @@ namespace SteelDoorRecipeAPIOdata
                     .HasConstraintName("FK_DietList_Recipe");
             });
 
-            modelBuilder.Entity<ImagePerson>(entity =>
-            {
-                entity.ToTable("ImagePerson");
-
-                entity.Property(e => e.Location)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('d')");
-
-                entity.HasOne(d => d.Person)
-                    .WithMany(p => p.ImagePeople)
-                    .HasForeignKey(d => d.PersonId)
-                    .HasConstraintName("FK_ImagePerson_Person");
-            });
-
-            modelBuilder.Entity<ImageRecipe>(entity =>
-            {
-                entity.ToTable("ImageRecipe");
-
-                entity.Property(e => e.Location)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('d')");
-
-                entity.HasOne(d => d.Recipe)
-                    .WithMany(p => p.ImageRecipes)
-                    .HasForeignKey(d => d.RecipeId)
-                    .HasConstraintName("FK_ImageRecipe_Recipe");
-            });
-
             modelBuilder.Entity<IngredientList>(entity =>
             {
                 entity.ToTable("IngredientList");
@@ -225,10 +198,17 @@ namespace SteelDoorRecipeAPIOdata
 
                 entity.Property(e => e.EmailUpdates).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.File).HasMaxLength(1);
+
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasDefaultValueSql("('d')");
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('no_image.png')");
 
                 entity.Property(e => e.LastName)
                     .HasMaxLength(255)
@@ -295,6 +275,13 @@ namespace SteelDoorRecipeAPIOdata
                 entity.Property(e => e.CreationDate)
                     .HasColumnType("date")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.File).HasMaxLength(1);
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('no_image.png')");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using SteelDoorRecipeAPIOdata.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using SteelDoorRecipeAPIOdata;
@@ -24,9 +23,6 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<Cuisine>("Cuisine");
     builder.EntitySet<Diet>("Diet");
     builder.EntitySet<DietList>("DietList");
-    builder.EntitySet<ImagePersonImplementation>("ImagePersonImplementation");
-    builder.EntitySet<ImageRecipeImplementation>("ImageRecipeImplementation");
-    builder.EntitySet<ImageRecipe>("ImageRecipe");
     builder.EntitySet<IngredientList>("IngredientList");
     builder.EntitySet<Instruction>("Instruction");
     builder.EntitySet<Person>("Person");
