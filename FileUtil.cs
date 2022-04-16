@@ -7,7 +7,7 @@
     {
         private const string SUCCESS = "Create Success!";
         private static byte[] SIGNATURE_PNG = new byte[8] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-        private static byte[] SIGNATURE_JPEG = new byte[4] { 0xFF, 0xD8, 0xFF, 0xD9 };
+        private static byte[] SIGNATURE_JPEG = new byte[3] { 0xFF, 0xD8, 0xFF};
         public static async Task<byte[]> GetFile(string filePath)
         {
             byte[] image = await File.ReadAllBytesAsync(filePath);
@@ -64,8 +64,7 @@
                 {
                     // [^n] is shorthand for array.Length -n
                     if (SIGNATURE_JPEG[1].Equals(image[1]) &&
-                        SIGNATURE_JPEG[2].Equals(image[^2]) &&
-                        SIGNATURE_JPEG[3].Equals(image[^1]))
+                        SIGNATURE_JPEG[2].Equals(image[2]))
                         result = ".jpg";
                 }
             }

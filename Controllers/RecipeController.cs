@@ -13,6 +13,10 @@ namespace SteelDoorRecipeAPIOdata.Controllers
     {
         private readonly rrrdbContext _db;
         private readonly ILogger<RecipeController> _logger;
+        private string path = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("FileLocation")["Recipe"];
+        private readonly string NO_FILE_NAME = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("FileLocation")["DEFAULT"];
+        private readonly string ENCODING_PNG = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("FileEncoding")["png"];
+        private readonly string ENCODING_JPG = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("FileEncoding")["jpg"];
 
         public RecipeController(rrrdbContext dbContext, ILogger<RecipeController> logger)
         {
@@ -21,25 +25,63 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         }
 
         [EnableQuery(PageSize = 15)]
-        public IQueryable<Recipe> Get()
+        public async Task<IQueryable<Recipe>> Get()
         {
-            return _db.Recipes;
+            var result = _db.Recipes;
+
+            byte[] file; 
+            foreach (Recipe recipe in result) {
+                file = await FileUtil.GetFile(path + recipe.Image);
+                recipe.File = FileUtil.DetermineFileType(file) == ".png" ? ENCODING_PNG  : ENCODING_JPG;
+                recipe.File += Convert.ToBase64String(file); 
+            }
+            return result;
         }
 
         [EnableQuery]
-        public SingleResult<Recipe> Get([FromODataUri] int key)
+        public async Task<SingleResult<Recipe>> Get([FromODataUri] int key)
         {
-            var result = _db.Recipes.Where(c => c.Id == key);
+            IQueryable<Recipe> result = _db.Recipes.Where(c => c.Id == key);
+
+            byte[] file; 
+            foreach (Recipe person in result) {
+                file = await FileUtil.GetFile(path + person.Image);
+                person.File = FileUtil.DetermineFileType(file) == ".png" ? ENCODING_PNG  : ENCODING_JPG;
+                person.File += Convert.ToBase64String(file); 
+            }
+            
             return SingleResult.Create(result);
+
         }
 
         [EnableQuery]
-        public async Task<IActionResult> Post([FromBody] Recipe recipe)
+        public async Task<Recipe> Post([FromBody] Recipe recipe)
         {
-            //recipe.Remove(recipe.Id);
+            string file = recipe.File;
+            string extension = ENCODING_PNG;
+           
+            if ((recipe.File + "").Length <= 0)
+            {
+                recipe.Image = NO_FILE_NAME;
+                recipe.File = Convert.ToBase64String(await FileUtil.GetFile(path + NO_FILE_NAME));
+                file = recipe.File;
+            } else
+            {
+                extension = file.Substring(file.IndexOf(","));
+                file = file.Substring(file.IndexOf(",") + 1);
+
+            }
+            recipe.File = null;
+
             _db.Recipes.Add(recipe);
+
             await _db.SaveChangesAsync();
-            return Created(recipe);
+            await FileUtil.SaveFile(Convert.FromBase64String(file), path, recipe.Id);
+
+            Recipe myPerson = Created(recipe).Entity;
+            myPerson.File = extension + file;
+            return myPerson;
+
         }
 
         [EnableQuery]
@@ -53,6 +95,13 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             if (existingNote == null)
             {
                 return NotFound();
+            }
+
+            if ((note.GetInstance().File + "").Length > 0){
+                string file = note.GetInstance().File;
+                file = file.Substring(file.IndexOf(",") + 1);
+                await FileUtil.SaveFile(Convert.FromBase64String(file), path, key);
+                note.GetInstance().File = null;
             }
 
             note.Patch(existingNote);
@@ -84,6 +133,13 @@ namespace SteelDoorRecipeAPIOdata.Controllers
             if (existingNote == null)
             {
                 return NotFound();
+            }
+
+            if ((note.GetInstance().File + "").Length > 0){
+                string file = note.GetInstance().File;
+                file = file.Substring(file.IndexOf(",") + 1);
+                await FileUtil.SaveFile(Convert.FromBase64String(file), path, key);
+                note.GetInstance().File = null;
             }
 
             note.Patch(existingNote);

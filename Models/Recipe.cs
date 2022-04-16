@@ -25,7 +25,7 @@ namespace SteelDoorRecipeAPIOdata
         public string Story { get; set; } = null!;
         public int Difficulty { get; set; }
         public string Image { get; set; } = null!;
-        public byte[]? File { get; set; }
+        public string? File { get; set; }
 
         public virtual Cuisine Cuisine { get; set; } = null!;
         public virtual Person Person { get; set; } = null!;

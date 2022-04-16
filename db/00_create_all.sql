@@ -281,7 +281,7 @@ CREATE TABLE [dbo].[Person](
 	[FailedLoginCount] [int] NOT NULL,
 	[About] [varchar](3750) NOT NULL,
 	[Image] [varchar](255) NOT NULL,
-	[File] [varbinary] NULL
+	[File] [varchar](255) NULL
  CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -373,7 +373,7 @@ CREATE TABLE [dbo].[Recipe](
 	[Story] [nvarchar](4000) NOT NULL,
 	[Difficulty] [int] NOT NULL,
 	[Image] [varchar](255) NOT NULL,
-	[File] [varbinary] NULL,
+	[File] [varchar](255) NULL,
  CONSTRAINT [PK_Recipe] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

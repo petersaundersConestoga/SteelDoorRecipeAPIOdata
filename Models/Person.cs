@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SteelDoorRecipeAPIOdata
 {
@@ -25,7 +24,8 @@ namespace SteelDoorRecipeAPIOdata
         public int FailedLoginCount { get; set; }
         public string About { get; set; } = null!;
         public string Image { get; set; } = null!;
-        public byte[]? File { get; set; }
+        // temp class for transport, normally null
+        public string? File { get; set; } = null;
 
         public virtual AccountType AccountType { get; set; } = null!;
         public virtual ICollection<AccountManager> AccountManagers { get; set; }
