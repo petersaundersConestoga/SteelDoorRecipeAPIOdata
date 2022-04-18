@@ -450,53 +450,6 @@ GO
 ALTER TABLE [dbo].[DietList] CHECK CONSTRAINT [FK_DietList_Recipe]
 GO
 
--- image recipe
-/*
-ALTER TABLE [dbo].[ImageRecipe] DROP CONSTRAINT [FK_ImageRecipe_Recipe]
-GO
-
-ALTER TABLE [dbo].[ImageRecipe] DROP CONSTRAINT [DF_ImageRecipe_Location]
-GO
-
-ALTER TABLE [dbo].[ImageRecipe] DROP CONSTRAINT [DF_ImageRecipe_RecipeId]
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ImageRecipe]') AND type in (N'U'))
-DROP TABLE [dbo].[ImageRecipe]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[ImageRecipe](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[RecipeId] [int] NOT NULL,
-	[Location] [varchar](255) NOT NULL,
- CONSTRAINT [PK_ImageRecipe] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[ImageRecipe] ADD  CONSTRAINT [DF_ImageRecipe_RecipeId]  DEFAULT ((0)) FOR [RecipeId]
-GO
-
-ALTER TABLE [dbo].[ImageRecipe] ADD  CONSTRAINT [DF_ImageRecipe_Location]  DEFAULT ('d') FOR [Location]
-GO
-
-ALTER TABLE [dbo].[ImageRecipe]  WITH CHECK ADD  CONSTRAINT [FK_ImageRecipe_Recipe] FOREIGN KEY([RecipeId])
-REFERENCES [dbo].[Recipe] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-
-ALTER TABLE [dbo].[ImageRecipe] CHECK CONSTRAINT [FK_ImageRecipe_Recipe]
-GO
-*/
 -- ingredient list
 ALTER TABLE [dbo].[IngredientList] DROP CONSTRAINT [FK_IngredientList_Unit]
 GO
@@ -763,53 +716,6 @@ ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
 
--- image person
-/*
-ALTER TABLE [dbo].[ImagePerson] DROP CONSTRAINT [FK_ImagePerson_Person]
-GO
-
-ALTER TABLE [dbo].[ImagePerson] DROP CONSTRAINT [DF_File_Location]
-GO
-
-ALTER TABLE [dbo].[ImagePerson] DROP CONSTRAINT [DF_File_ParentId]
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ImagePerson]') AND type in (N'U'))
-DROP TABLE [dbo].[ImagePerson]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[ImagePerson](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[PersonId] [int] NOT NULL,
-	[Location] [varchar](255) NOT NULL,
- CONSTRAINT [PK_File] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[ImagePerson] ADD  CONSTRAINT [DF_File_ParentId]  DEFAULT ((0)) FOR [PersonId]
-GO
-
-ALTER TABLE [dbo].[ImagePerson] ADD  CONSTRAINT [DF_File_Location]  DEFAULT ('d') FOR [Location]
-GO
-
-ALTER TABLE [dbo].[ImagePerson]  WITH CHECK ADD  CONSTRAINT [FK_ImagePerson_Person] FOREIGN KEY([PersonId])
-REFERENCES [dbo].[Person] ([Id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-
-ALTER TABLE [dbo].[ImagePerson] CHECK CONSTRAINT [FK_ImagePerson_Person]
-GO
-*/
 -- season
 ALTER TABLE [dbo].[Season] DROP CONSTRAINT [DF_Season_SeasonName]
 GO
