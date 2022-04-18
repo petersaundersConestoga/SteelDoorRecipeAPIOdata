@@ -78,6 +78,7 @@ builder.Services.AddControllers().AddOData(
         .Count()
         .SkipToken()
         .OrderBy()
+        .SetMaxTop(10)
     );
 
 // we need an http client to talk to the local flask server

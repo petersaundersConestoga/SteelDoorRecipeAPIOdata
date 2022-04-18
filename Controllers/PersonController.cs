@@ -30,12 +30,14 @@ namespace SteelDoorRecipeAPIOdata.Controllers
         {
             var result = _db.People;
 
-            byte[] file; 
-            foreach (Person person in result) {
+            byte[] file;
+            await foreach (Person person in result)
+            {
                 file = await FileUtil.GetFile(path + person.Image);
-                person.File = FileUtil.DetermineFileType(file) == ".png" ? ENCODING_PNG  : ENCODING_JPG;
-                person.File += Convert.ToBase64String(file); 
+                person.File = FileUtil.DetermineFileType(file) == ".png" ? ENCODING_PNG : ENCODING_JPG;
+                person.File += Convert.ToBase64String(file);
             }
+
             return result;
         }
         
